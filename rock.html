@@ -1,0 +1,194 @@
+<!doctype html>
+
+<head>
+  <title> Rock-Paper-Scissors</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      ;
+      text-align: center;
+
+    }
+
+    .head {
+      background-color: darkslategray;
+      color: antiquewhite;
+      height: 5rem;
+      line-height: 5rem;
+    }
+
+    .choice {
+      height: 100;
+      width: 100;
+      border-radius: 110%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .img {
+      height: 40;
+      width: 40;
+      object-fit: cover;
+      border-radius: 110%;
+
+    }
+
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 7rem;
+
+    }
+
+    .score-board {
+      margin-top: 10%;
+      display: flex;
+      align-items: center;
+      font-size: 2rem;
+      gap: 3rem;
+      justify-content: center;
+    }
+
+    .choice:hover {
+      cursor: pointer;
+      opacity: 0.3;
+    }
+
+    #msg {
+      background-color: darkslategray;
+      color: antiquewhite;
+      display: inline-flex;
+      border-radius: 1rem;
+      padding: 10px;
+      font-size: 2rem;
+      margin-top: 5%;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="head">
+    <h1> Rock-Paper-Scissors</h1>
+  </div>
+
+
+
+  <div class="choices">
+    <div class="choice" id="rock">
+      <img src="C:\Users\Aamna sayyed\Downloads\rock.png"/>
+    </div>
+    <div class="choice" id="paper">
+      <img src="C:\Users\Aamna sayyed\Downloads\paper.png" />
+    </div>
+    <div class="choice" id="scissor">
+      <img src="C:\Users\Aamna sayyed\Downloads\scissor.png" />
+    </div>
+
+  </div>
+
+
+  <div class="score-board">
+    <div class="score">
+      <p id="user-score">0</p>
+      <p>You</p>
+    </div>
+
+
+    <div class="score">
+      <p id="comp-score">0</p>
+      <p>Computer</p>
+    </div>
+  </div>
+
+  <div class="msg-container">
+    <p id="msg"> Play your move </p>
+  </div>
+
+
+  <script>
+    let UserScore = 0;
+    let CompScore = 0;
+
+
+    const choices = document.querySelectorAll(".choice");
+    const msg = document.querySelector("#msg");
+    const userSc = document.querySelector("#user-score");
+    const compSc = document.querySelector("#comp-score");
+
+
+    const genCompScore = (compChoice) => {
+      const options = ["rock", "paper", "scissor"];
+      const rndIdx = Math.floor(Math.random() * 3);
+      return options[rndIdx];
+    };
+
+    const drawGame = () => {
+      console.log("Game was Draw!");
+      msg.innerText = "Game was Draw!,Play Again.";
+      msg.style.backgroundColor = "darkslategray";
+
+    };
+
+    const showWinner = (userWin, userChoice, compChoice) => {
+      if (userWin) {
+        UserScore++;
+        userSc.innerText = UserScore;
+        console.log("You Win!");
+        msg.innerText = `You Win ! ${userChoice} beats ${compChoice}`;
+        msg.style.backgroundColor = "green";
+      } else {
+        CompScore++;
+        compSc.innerText = CompScore;
+        console.log("You Lose!");
+        msg.innerText = `You Lose ! ${compChoice} beats ${userChoice}`;
+        msg.style.backgroundColor = "red";
+
+      }
+    };
+
+    const playGame = (userChoice) => {
+      console.log("your choice was selected", userChoice);
+
+      // generating compter choice 
+      const compChoice = genCompScore();
+      console.log("Comp choice was selected", compChoice);
+
+      if (userChoice === compChoice) {
+        drawGame();
+      } else {
+        let userWin = true;
+
+        if (userChoice === "rock") {
+          // scissor , paper 
+          userWin = compChoice === "scissor" ? true : true;
+        }
+        else if (userChoice === "paper") {
+          // scissor, rock
+          userWin = compChoice === "rock" ? false : false;
+        }
+        else {
+          userWin = compChoice === "paper" ? true : false;
+        }
+        showWinner(userWin, userChoice, compChoice);
+      }
+    };
+
+
+
+    choices.forEach((choice) => {
+      choice.addEventListener("click", () => {
+        const userChoice = choice.getAttribute("id");
+        playGame(userChoice);
+      });
+    });
+
+  </script>
+</body>
+
+</html>
